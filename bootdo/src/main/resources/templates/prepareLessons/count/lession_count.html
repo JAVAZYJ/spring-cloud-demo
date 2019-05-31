@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:shiro="http://www.w3.org/1999/xhtml">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="col-sm-12">
+        <div class="ibox">
+            <div class="ibox-body">
+                <div class="fixed-table-toolbar">
+
+                    <div class="columns pull-right" style="padding-left: 5px">
+                        <button class="btn btn-success" onclick="reLoad()">重置</button>
+                    </div>
+                    <div class="columns pull-right" style="padding-left: 10px">
+                        <button class="btn btn-info" onclick="reLoad()">查询</button>
+                    </div>
+                    <div class="columns pull-right col-md-2 nopadding" style="padding-left: 10px;padding-top: 2px">
+                        <select  id="searchName1" class="form-control">
+                            <option value ="volvo">语文</option>
+                            <option value ="saab">数学</option>
+                            <option value="opel">英语</option>
+                            <option value="audi">体育</option>
+                        </select>
+                    </div>
+                    <div class="columns pull-right col-md-2 nopadding" style="padding-left: 10px;padding-top: 2px">
+                        <select  id="searchName2" class="form-control">
+                            <option value ="volvo">2010年上学期</option>
+                            <option value ="saab">2010年下学期</option>
+                            <option value="opel">2011年上学期</option>
+                            <option value="audi">2011年下学期</option>
+                        </select>
+                    </div>
+                </div>
+                <table id="exampleTable" data-mobile-responsive="true">
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="include :: footer"></div>
+<script type="text/javascript" src="/js/appjs/prepareLessons/count/lessions_count.js"></script>
+</body>
+</html>
