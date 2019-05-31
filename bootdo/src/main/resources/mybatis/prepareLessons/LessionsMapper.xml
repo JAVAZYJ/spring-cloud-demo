@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.prepareLessons.dao.LessionsDao">
+
+	<select id="get" resultType="com.bootdo.prepareLessons.domain.LessionsDO">
+		select `id`,`title`,`catalog`,`term`,`creationTime`,`content` from pre_lessions where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.bootdo.prepareLessons.domain.LessionsDO">
+		select `id`,`title`,`catalog`,`term`,`creationTime`,`content` from pre_lessions
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="title != null and title != ''"> and title = #{title} </if>
+		  		  <if test="catalog != null and catalog != ''"> and catalog = #{catalog} </if>
+		  		  <if test="term != null and term != ''"> and term = #{term} </if>
+		  		  <if test="creationtime != null and creationtime != ''"> and creationTime = #{creationtime} </if>
+		  		  <if test="content != null and content != ''"> and content = #{content} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+	<select id="listCata" resultType="com.bootdo.prepareLessons.domain.CatalogDO">
+		select `id`,`catalog`,`num` from pre_catalog
+		<where>
+			<if test="id != null and id != ''"> and id = #{id} </if>
+			<if test="catalog != null and catalog != ''"> and title = #{catalog} </if>
+			<if test="num != null and num != ''"> and catalog = #{num} </if>
+		</where>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by id desc
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+	<select id="listCount" resultType="int" parameterType="String">
+		select count(`catalog`) from pre_lessions  where `catalog` = #{catalog} group by `catalog`
+	</select>
+
+	<update id="updateCatalog" parameterType="com.bootdo.prepareLessons.domain.CatalogDO">
+		update pre_catalog
+		<set>
+			<if test="num != null">`title` = #{null}, </if>
+		</set>
+		where  `catalog` = #{catalog}
+	</update>
+
+ 	<select id="count" resultType="int">
+		select count(*) from pre_lessions
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="title != null and title != ''"> and title = #{title} </if>
+		  		  <if test="catalog != null and catalog != ''"> and catalog = #{catalog} </if>
+		  		  <if test="term != null and term != ''"> and term = #{term} </if>
+		  		  <if test="creationtime != null and creationtime != ''"> and creationTime = #{creationtime} </if>
+		  		  <if test="content != null and content != ''"> and content = #{content} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bootdo.prepareLessons.domain.LessionsDO">
+		insert into pre_lessions
+		(
+			`id`, 
+			`title`, 
+			`catalog`, 
+			`term`, 
+			`creationTime`, 
+			`content`
+		)
+		values
+		(
+			#{id}, 
+			#{title}, 
+			#{catalog}, 
+			#{term}, 
+			#{creationtime}, 
+			#{content}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bootdo.prepareLessons.domain.LessionsDO">
+		update pre_lessions 
+		<set>
+			<if test="title != null">`title` = #{title}, </if>
+			<if test="catalog != null">`catalog` = #{catalog}, </if>
+			<if test="term != null">`term` = #{term}, </if>
+			<if test="creationtime != null">`creationTime` = #{creationtime}, </if>
+			<if test="content != null">`content` = #{content}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from pre_lessions where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from pre_lessions where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+	<select id="infoAll" resultType="com.bootdo.prepareLessons.domain.CatalogDO">
+        select * from pre_catalog order by id ASC
+    </select>
+
+	<select id="selectCatalog" parameterType="int" resultType="String">
+        select `catalog` from pre_catalog where id = #{catalog}
+    </select>
+
+	<select id="selectCatalogString" parameterType="String" resultType="int">
+        select id from pre_catalog where `catalog` = #{id}
+    </select>
+</mapper>
